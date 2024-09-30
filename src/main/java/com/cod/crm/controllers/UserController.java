@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cod.crm.mapper.UsersMapper;
-import com.cod.crm.model.Users;
+import com.cod.crm.mapper.UserMapper;
+import com.cod.crm.model.User;
 
 
 
@@ -19,13 +19,13 @@ import com.cod.crm.model.Users;
 public class UserController {
 	
 	@Autowired
-	private UsersMapper usersMapper;
+	private UserMapper userMapper;
 	
 	
 	
 	@RequestMapping(value = "/api/user/create", method = RequestMethod.POST)
 	public HashMap<String,String> create(
-			@RequestBody Users users
+			@RequestBody User user
 			)
     {
 		
@@ -35,21 +35,19 @@ public class UserController {
      
 		
 		// 确保用户名和密码不为空
-	    if (users.getUsername() == null || users.getPassword() == null) {
+	    if (user.getName()  == null || user.getPassword() == null) {
 	        response.put("error", "用户名和密码不能为空！");
 	        return response;
 	    }
 
-		users.setCreatedAt(new Date());
-		users.setUpdatedAt(new Date());
 		
 //    Users user=new Users();
 //	user.setUsername("tiff");
 //	user.setPassword("tiff");
-		int result = usersMapper.insertSelective(users);
+		int result = userMapper.insertSelective(user);
 	
 	if (result > 0) {
-        response.put("id", users.getId().toString());
+        response.put("id", user.getId().toString());
     } else {
         response.put("error", "用户创建失败，请重试。");
     }
@@ -95,7 +93,7 @@ public class UserController {
          @RequestParam(value = "id", defaultValue = "",required = true) Integer id
          ) 
     {
-		usersMapper.deleteByPrimaryKey(id);
+		userMapper.deleteByPrimaryKey(id);
 
          HashMap<String,String> response = new HashMap<String,String>();
 
@@ -108,14 +106,13 @@ public class UserController {
 	
 	@RequestMapping(value = "/api/user/update", method = RequestMethod.POST)
     public  HashMap<String,String>  update(
-         @RequestBody Users users
+         @RequestBody User users
          ) 
     {
-		  users=usersMapper.selectByPrimaryKey(users.getId());
-		  users.setUsername("Tiff0322");
+		  users=userMapper.selectByPrimaryKey(users.getId());
+		  //users.setName("Tiff0322");
 		  
-          users.setUpdatedAt(new Date());
-          usersMapper.updateByPrimaryKey(users);
+          userMapper.updateByPrimaryKey(users);
 
          HashMap<String,String> response = new HashMap<String,String>();
 
@@ -128,12 +125,12 @@ public class UserController {
 	
 	
     @RequestMapping(value = "/api/user/get", method = RequestMethod.GET)
-    public  Users   get(
+    public  User   get(
          @RequestParam(value = "id", defaultValue = "",required = true) Integer id
          ) 
     {
 
-         Users users = usersMapper.selectByPrimaryKey(id);
+         User users = userMapper.selectByPrimaryKey(id);
 
 
 //         response.data = custom;
