@@ -68,6 +68,7 @@ export default {
 		return {
 			"rowData": {},
 			"visible1":false,
+			"visible":false,
 
 			"items": [],
 			"query":{
@@ -77,7 +78,6 @@ export default {
 				"pageIndex":1,
 			},
 			/*
-			visible = ref(false);
 			idx: number = -1;
 			idEdit = ref(false);
 			rowData = ref({});

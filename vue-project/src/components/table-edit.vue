@@ -69,7 +69,16 @@ export default {
 		}
 	},
 	methods: {
-  saveEdit : function(){
+    saveEdit: function () { },
+    disabledStatus: function () {
+      return true;
+      /*
+      if (props.edit) {
+        return true
+      } else {
+        return false
+      }
+        */
 
   },
 
@@ -140,14 +149,6 @@ const defaultData = {
 
 const form = ref({ ...(props.edit ? props.data : defaultData) });
 
-//入力状態を判断する
-const disabledStatus = () => {
-  if(props.edit) {
-    return true
-  } else {
-    return false
-  }
-};
 disabledStatus();
 
 console.log(disabledStatus())
