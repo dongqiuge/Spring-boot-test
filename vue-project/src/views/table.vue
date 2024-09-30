@@ -91,7 +91,7 @@ export default {
 			},
 			*/
 
-			visible1 : ref(false),
+			//visible1 : ref(false),
 
 		}
 	},
