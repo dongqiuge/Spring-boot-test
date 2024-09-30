@@ -36,6 +36,15 @@ const router = createRouter({
             permiss: '1',
           },
           component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
+        },
+        {
+          path: '/table',
+          name: 'table',
+          meta: {
+            title: 'Table',
+            permiss: '1',
+          },
+          component: () => import(/* webpackChunkName: "dashboard" */ '../views/table.vue'),
         }
 
   ]

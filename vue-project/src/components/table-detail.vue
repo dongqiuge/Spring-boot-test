@@ -35,7 +35,7 @@
   </el-descriptions>
 </template>
 
-<script lang="ts" setup>
+<script  setup>
 const props = defineProps({
   data: {
     type: Object,

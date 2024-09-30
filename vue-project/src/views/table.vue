@@ -1,3 +1,8 @@
+<script setup >
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icons-vue';
+</script>
+
 <template>
 	<div>
 		<div class="container">
@@ -6,7 +11,7 @@
 				<el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
 				<el-button type="warning" :icon="CirclePlusFilled" @click="visible = true">新規</el-button>
 			</div>
-			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+			<el-table :data="items" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="name" label="名前" align="center"></el-table-column>
 				<el-table-column label="性別" align="center">
@@ -52,132 +57,92 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="basetable">
-import { ref, reactive } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icons-vue';
-// import { fetchData } from '../api/index';
-// import TableEdit from '../components/table-edit.vue';
-// import TableDetail from '../components/table-detail.vue';
+<script>
 
-interface TableItem {
-	id: number;
-	name: string;
-	thumb: string;
-	gender: string;
-	state: string;
-	creatDate: string;
-	tel: string;
-}
+export default {
+	mounted: function () {
 
-const query = reactive({
-	creatDate: '',
-	name: '',
-	pageIndex: 1,
-	pageSize: 10
-});
-const tableData = ref<TableItem[]>([]);
-const pageTotal = ref(0);
-// テーブルデータの取得
-const getData = async () => {
-	// const res = await fetchData();
-	const res = {
-		"list": [{
-			"id": 1,
-			"name": "鈴木",
-			"gender": "男",
-			"tel": "08055554444",
-			"state": "成功",
-			"creatDate": "2023-11-01",
-			"thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-		},
-		{
-			"id": 2,
-			"name": "松子",
-			"gender": "女",
-			"tel": "030599954444",
-			"state": "成功",
-			"creatDate": "2023-10-11",
-			"thumb": "https://lin-xin.gitee.io/images/post/node3.png"
-		},
-		{
-			"id": 3,
-			"name": "宫本",
-			"gender": "男",
-			"tel": "05065558444",
-			"state": "失敗",
-			"creatDate": "2023-11-11",
-			"thumb": "https://lin-xin.gitee.io/images/post/parcel.png"
-		},
-		{
-			"id": 4,
-			"name": "丰田",
-			"gender": "男",
-			"tel": "060587654444",
-			"state": "成功",
-			"creatDate": "2019-23-20",
-			"thumb": "https://lin-xin.gitee.io/images/post/notice.png"
+	},
+
+	data: function () {
+		return {
+
+			"items": [],
+			"query":{
+				"name":"",
+				"creatDate": '',
+				"querySize":10,
+				"pageIndex":1,
+			},
+			/*
+			visible = ref(false);
+			idx: number = -1;
+			idEdit = ref(false);
+			rowData = ref({});
+			updateData = (row: TableItem) => {
+				idEdit.value ? (tableData.value[idx] = row) : tableData.value.unshift(row);
+				console.log(tableData.value);
+				closeDialog();
+			};
+
+			closeDialog : () => {
+				visible.value = false;
+				idEdit.value = false;
+			},
+			*/
+
+			visible1 : ref(false),
+
 		}
-		],
-		"pageTotal": 4
+	},
+	methods: {
+		handleView :function(row)
+		 {
+			//rowData.value = row;
+			//visible1.value = true;
+		},
+		handleEdit: function (index, row) {
+			idx = index;
+			rowData.value = row;
+			idEdit.value = true;
+			visible.value = true;
+		},
+		// 削除
+		handleDelete :function(index )  {
+			// 削除の二次確認
+			ElMessageBox.confirm('削除してもよろしいですか？', 'Tip', {
+				type: 'warning',
+				confirmButtonText: '確認',
+			cancelButtonText: 'キャンセル',
+			})
+				.then(() => {
+					ElMessage.success('削除成功');
+					tableData.value.splice(index, 1);
+				})
+				.catch(() => { });
+		},
+
+		// 検索
+		handleSearch :function ()  {
+			query.pageIndex = 1;
+			getData();
+		},
+		// ページネーションナビゲーション
+		handlePageChange :function(val )  {
+			query.pageIndex = val;
+			getData();
+		},
+
+		getData:function(){
+		//tableData.value = res.list;
+		//pageTotal.value = res.pageTotal || 50;
+		},
+	},
+	components: {
 	}
-	tableData.value = res.list;
-	pageTotal.value = res.pageTotal || 50;
-};
-getData();
 
-// 検索
-const handleSearch = () => {
-	query.pageIndex = 1;
-	getData();
-};
-// ページネーションナビゲーション
-const handlePageChange = (val: number) => {
-	query.pageIndex = val;
-	getData();
-};
 
-// 削除
-const handleDelete = (index: number) => {
-	// 削除の二次確認
-	ElMessageBox.confirm('削除してもよろしいですか？', 'Tip', {
-		type: 'warning',
-		confirmButtonText: '確認',
-    cancelButtonText: 'キャンセル',
-	})
-		.then(() => {
-			ElMessage.success('削除成功');
-			tableData.value.splice(index, 1);
-		})
-		.catch(() => { });
-};
-
-const visible = ref(false);
-let idx: number = -1;
-const idEdit = ref(false);
-const rowData = ref({});
-const handleEdit = (index: number, row: TableItem) => {
-	idx = index;
-	rowData.value = row;
-	idEdit.value = true;
-	visible.value = true;
-};
-const updateData = (row: TableItem) => {
-	idEdit.value ? (tableData.value[idx] = row) : tableData.value.unshift(row);
-	console.log(tableData.value);
-	closeDialog();
-};
-
-const closeDialog = () => {
-	visible.value = false;
-	idEdit.value = false;
-};
-
-const visible1 = ref(false);
-const handleView = (row: TableItem) => {
-	rowData.value = row;
-	visible1.value = true;
-};
+}
 </script>
 
 <style scoped>

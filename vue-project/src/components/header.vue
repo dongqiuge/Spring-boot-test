@@ -4,10 +4,6 @@
 <template>
   <div class="header">
     <!-- 折りたたみボタン -->
-    <div class="collapse-btn" @click="collapseChage">
-      <el-icon v-if="sidebar.collapse"><Expand /></el-icon>
-      <el-icon v-else><Fold /></el-icon>
-    </div>
     <div class="logo">CRMシステム</div>
     <div class="header-right">
       <div class="header-user-con">

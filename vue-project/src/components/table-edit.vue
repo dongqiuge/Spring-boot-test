@@ -37,7 +37,7 @@
       </el-upload>
     </el-form-item> -->
     <el-form-item>
-      <el-button type="primary" @click="saveEdit(formRef)">保 存</el-button>
+      <el-button type="primary" @click="saveEdit()">保 存</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -47,6 +47,72 @@ import { ElMessage, FormInstance, FormRules, UploadProps } from 'element-plus';
 import { ref } from 'vue';
 import Api from '@/api/index';
 
+</script>
+<script>
+
+export default {
+	mounted: function () {
+
+	},
+
+	data: function () {
+		return {
+
+        form:{
+          name:"",
+          sex:"",
+          mobile:"",
+          status:"",
+        }
+
+		}
+	},
+	methods: {
+  saveEdit : function(){
+
+  },
+
+    /*
+  saveEdit : function(formEl | undefined) => {
+    if (!formEl) return;
+    formEl.validate(valid => {
+      if (!valid) return false;
+      props.update(form.value);
+
+
+      if(form.value.id)
+      {
+        Api.postJson("/api/custom/update",form.value).then(function(response){
+
+          console.log(response);
+
+          ElMessage.success('保存成功！');
+        });
+      }
+      else
+      {
+        Api.postJson("/api/custom/create",form.value).then(function(response){
+
+          console.log(response);
+
+          ElMessage.success('保存成功！');
+        });
+      }
+
+    });
+  },
+  */
+
+
+	},
+	components: {
+	}
+
+
+}
+
+
+/*
 const props = defineProps({
   data: {
     type: Object,
@@ -91,35 +157,6 @@ const rules: FormRules = {
   id: [{ required: true, message: 'IDを入力してください', trigger: 'blur' }]
 };
 const formRef = ref<FormInstance>();
-const saveEdit = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(valid => {
-    if (!valid) return false;
-    props.update(form.value);
-
-
-    if(form.value.id)
-    {
-      Api.postJson("/api/custom/update",form.value).then(function(response){
-
-        console.log(response);
-
-        ElMessage.success('保存成功！');
-      });
-    }
-    else
-    {
-      Api.postJson("/api/custom/create",form.value).then(function(response){
-
-        console.log(response);
-
-        ElMessage.success('保存成功！');
-      });
-    }
-
-  });
-};
-
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
   form.value.thumb = URL.createObjectURL(uploadFile.raw!);
 };
@@ -134,6 +171,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
   }
   return true;
 };
+*/
 </script>
 
 <style>
