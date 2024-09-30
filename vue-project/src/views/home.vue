@@ -14,13 +14,30 @@
 		</div>
 	</div>
 </template>
-<script setup lang="ts">
-import { useSidebarStore } from '../store/sidebar';
-import { useTagsStore } from '../store/tags';
-import vHeader from '../components/header.vue';
-import vSidebar from '../components/sidebar.vue';
-import vTags from '../components/tags.vue';
 
-const sidebar = useSidebarStore();
-const tags = useTagsStore();
+<script>
+import { useUserStore } from '@/stores/module/user'
+import {  ElMessageBox } from 'element-plus'
+
+const userStore = useUserStore()
+
+
+
+      export default {
+        mounted:function(){
+
+        },
+
+      data:function() {
+        return {
+
+
+          }
+      },
+      methods: {
+
+
+      }
+
+    }
 </script>

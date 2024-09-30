@@ -70,64 +70,68 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from "vue";
-import { useSidebarStore } from "../store/sidebar";
-import { useRoute } from "vue-router";
+<script>
 
-const items = [
-  {
-    icon: "Odometer",
-    index: "/dashboard",
-    title: "システムホーム",
-    permiss: "1", //権限の設定と確認
+
+
+export default {
+  mounted:function(){
+
   },
-  {
-    icon: "Setting",
-    index: "/tabs",
-    title: "システム設定",
-    permiss: "10",
-    subs: [
-      {
-        icon: "Warning",
-        index: "/permission",
-        title: "権限管理",
-        permiss: "13",
-      },
-    ],
+
+  data:function() {
+    return {
+      items : [
+        {
+          icon: "Odometer",
+          index: "/dashboard",
+          title: "システムホーム",
+          permiss: "1", //権限の設定と確認
+        },
+        {
+          icon: "Setting",
+          index: "/tabs",
+          title: "システム設定",
+          permiss: "10",
+          subs: [
+            {
+              icon: "Warning",
+              index: "/permission",
+              title: "権限管理",
+              permiss: "13",
+            },
+          ],
+        },
+        {
+          icon: "Calendar",
+          index: "1",
+          title: "顧客管理",
+          permiss: "2",
+          subs: [
+            {
+              index: "/table",
+              title: "見込み顧客管理",
+              permiss: "2",
+            },
+            {
+              index: "/import",
+              title: "顧客リスト",
+              permiss: "2",
+            },
+          ],
+
+        }
+      ]
+
+    }
   },
-  {
-    icon: "Calendar",
-    index: "1",
-    title: "顧客管理",
-    permiss: "2",
-    subs: [
-      {
-        index: "/table",
-        title: "見込み顧客管理",
-        permiss: "2",
-      },
-      {
-        index: "/import",
-        title: "顧客リスト",
-        permiss: "2",
-      },
-    ],
+  methods: {
+
 
   }
-];
 
-const route = useRoute();
+}
 
-/*
-計算属性 onRoutes を作成し、route.path が変更された場合、onRoutes の値もそれに応じて更新されます。
-これは、ルートの変更に応じてレスポンスを更新するためのもので、useRoute() と組み合わせて使用されます。
-*/
-const onRoutes = computed(() => {
-  return route.path;
-});
-
-const sidebar = useSidebarStore();
 </script>
 
 <style scoped>

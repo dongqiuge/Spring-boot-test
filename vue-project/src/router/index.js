@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import {useUserStore} from "@/stores/module/user.js";
+import Home from "@/views/home.vue";
 
 
 const router = createRouter({
@@ -20,9 +21,26 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: () => import('@/views/user.vue')
-    }
+    },
+
+    {
+      path: '/',
+      name: 'Home',
+      component: Home,
+      children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          meta: {
+            title: 'ホームページ',
+            permiss: '1',
+          },
+          component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
+        }
 
   ]
+}]
+
 })
 router.beforeEach((to, from, next) => {
   // NProgress.start();
@@ -57,5 +75,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   /*NProgress.done() //コンポーネントの読み込み完了後、プログレスバーの表示をキャンセルする*/
 })
+
+
+
 
 export default router

@@ -1,3 +1,10 @@
+<script setup>
+
+import { Lock, User } from "@element-plus/icons-vue";
+</script>
+
+
+
 <template>
   <div class="login-wrap">
     <div class="ms-login">
@@ -52,7 +59,7 @@ import {  ElMessageBox } from 'element-plus'
 
 const userStore = useUserStore()
 
-//import { validUsername } from '@/utils/validate'
+
 
 export default {
   mounted:function(){
@@ -86,7 +93,7 @@ export default {
   methods: {
     handleLogin() {
 
-      var url="/api/frd/login/login";
+      var url="/api/login/login";
       /*
       var params={
           email:"test@test.com",
@@ -99,7 +106,7 @@ export default {
       var self=this
       this.$api.post(url,params).then((response) => {
 
-        if (response.code != 0) {
+        if (response.code != "SUCCESS") {
           //alert(response.message);
           ElMessageBox.alert(response.message, 'Warning', {
             // if you want to disable its autofocus
@@ -108,7 +115,11 @@ export default {
           })
         } else {
           //console.log(response.data);
-          userStore.user = response.data
+          userStore.setUser(response.data.id,response.data.name,response.data.token)
+
+
+
+
 
           self.$router.push({path: '/dashboard'})
         }
@@ -124,7 +135,7 @@ import { usePermissStore } from "../store/permiss";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
-import { Lock, User } from "@element-plus/icons-vue";
+
 
 interface LoginInfo {
   username: string;

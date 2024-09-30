@@ -43,38 +43,32 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { onMounted } from 'vue';
-import { useSidebarStore } from '../store/sidebar';
-import { useRouter } from 'vue-router';
-import imgurl from '../assets/img/img.jpg';
 
-const username: string | null = localStorage.getItem('ms_username');
-const message: number = 2;
+<script>
+export default {
+  mounted:function(){
 
-const sidebar = useSidebarStore();
-// サイドバーを折りたたむ
-const collapseChage = () => {
-  sidebar.handleCollapse();
-};
+  },
 
-onMounted(() => {
-  if (document.body.clientWidth < 1500) {
-    collapseChage();
+  data:function() {
+    return {
+      message:"",
+      imgurl:"",
+      username:""
+    }
+  },
+  methods: {
+
+
   }
-});
 
-// ユーザー名のドロップダウンメニュー選択イベント
-const router = useRouter();
-const handleCommand = (command: string) => {
-  if (command == 'loginout') {
-    localStorage.removeItem('ms_username');
-    router.push('/login');
-  } else if (command == 'user') {
-    router.push('/user');
-  }
-};
+}
 </script>
+
+
+
+
+
 <style scoped>
 .header {
   position: relative;

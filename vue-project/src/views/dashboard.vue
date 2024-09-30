@@ -7,10 +7,10 @@
 			<el-col :span="8">
 				<el-card shadow="hover" class="mgb20" style="height: 252px">
 					<div class="user-info">
-						<el-avatar :size="120" :src="imgurl" />
+						<el-avatar :size="120" :src="img1" />
 						<div class="user-info-cont">
-							<div class="user-info-name">{{ name }}</div>
-							<div>{{ role }}</div>
+							<div class="user-info-name">{{ username }}</div>
+
 						</div>
 					</div>
 					<div class="user-info-list">
@@ -27,15 +27,31 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="dashboard">
-// import Schart from 'vue-schart';
-import { reactive } from 'vue';
-import imgurl from '../assets/img/img.jpg';
+<script>
+import { useUserStore } from '@/stores/module/user'
+const userStore = useUserStore()
 
-const name = localStorage.getItem('ms_username');
-const role: string = name === 'admin' ? 'スーパーアドミニストレーター' : '一般ユーザー';
 
+
+  export default {
+    mounted:function(){
+
+    },
+
+    data:function() {
+
+       return {
+        username:userStore.username,
+        img1:'./src/assets/img/img.jpg'
+
+      }
+    },
+      methods: {
+
+    }
+    }
 </script>
+
 
 <style scoped>
 .el-row {
