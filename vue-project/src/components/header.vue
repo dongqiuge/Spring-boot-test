@@ -49,7 +49,7 @@ export default {
   data:function() {
     return {
       message:"",
-      imgurl:"",
+      imgurl:"./src/assets/img/img.jpg",
       username:""
     }
   },
@@ -87,6 +87,7 @@ export default {
   float: left;
   width: 250px;
   line-height: 70px;
+  color: #1f2f3d;
 }
 .header-right {
   float: right;
