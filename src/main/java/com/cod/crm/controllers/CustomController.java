@@ -44,6 +44,8 @@ public class CustomController {
          ) 
          {
 
+          System.out.println(" API CSUTOM LIT");
+
           if (!query.equals("")) query="%"+query+"%";
           if (page < 1) page=1;
           if (pageCount < 1) pageCount =1; 
@@ -57,9 +59,17 @@ public class CustomController {
 
 
           Criteria criteria = customExample.createCriteria();
+
+
           if (!StringUtils.isEmptyOrWhitespaceOnly(query)) {
                   criteria.andNameLike("%" + query + "%");    
           }
+
+          //example.setOrderByClause("age ASC, name DESC");
+          customExample.setOrderByClause("id desc");
+
+          System.out.println(" Set order by id desc ");
+
           
           List<Custom> userList = customMapper.selectByExample(customExample);
 

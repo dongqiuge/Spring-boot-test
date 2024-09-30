@@ -42,16 +42,21 @@
   </el-form>
 </template>
 
-<script  setup>
-//import { ElMessage, FormInstance, FormRules, UploadProps } from 'element-plus';
-//import { ref } from 'vue';
-//import Api from '@/api/index';
-
-</script>
-
 <script>
+import { ElMessage } from 'element-plus';
 
 export default {
+   props:[ "form_data","edit","update"],
+
+  watch: {
+    form_data(val) {
+      //为什么第二次以后赋值就不会变更了?
+      this.form = val
+
+      console.log(this.form)
+    }
+  },
+
 	mounted: function () {
 
 	},
@@ -59,59 +64,45 @@ export default {
 	data: function () {
 		return {
 
-        form:{
-          name:"",
-          sex:"",
-          mobile:"",
-          status:"",
-        }
+        form:this.form_data,
 
 		}
 	},
 	methods: {
-    saveEdit: function () { },
+    saveEdit: function () { 
+        //props.update(form.value);
+
+
+      if (this.form.id) {
+        this.$api.postJson("/api/custom/update", this.form).then(function (response) {
+
+          console.log(response);
+
+          ElMessage.success('保存成功！');
+
+          window.location.reload()
+        });
+      }
+      else {
+        this.$api.postJson("/api/custom/create", this.form).then(function (response) {
+
+          console.log(response);
+
+          ElMessage.success('保存成功！');
+
+          window.location.reload()
+        });
+      }
+
+    },
     disabledStatus: function () {
-      return true;
-      /*
-      if (props.edit) {
+      if (this.edit) {
         return true
       } else {
         return false
       }
-        */
 
   },
-
-    /*
-  saveEdit : function(formEl | undefined) => {
-    if (!formEl) return;
-    formEl.validate(valid => {
-      if (!valid) return false;
-      props.update(form.value);
-
-
-      if(form.value.id)
-      {
-        Api.postJson("/api/custom/update",form.value).then(function(response){
-
-          console.log(response);
-
-          ElMessage.success('保存成功！');
-        });
-      }
-      else
-      {
-        Api.postJson("/api/custom/create",form.value).then(function(response){
-
-          console.log(response);
-
-          ElMessage.success('保存成功！');
-        });
-      }
-
-    });
-  },
-  */
 
 
 	},

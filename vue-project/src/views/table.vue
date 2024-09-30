@@ -44,12 +44,12 @@ import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icon
 			</el-table>
 			<div class="pagination">
 				<el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-					:page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
+					:page-size="query.pageSize" :total="query.pageTotal" @current-change="handlePageChange"></el-pagination>
 			</div>
 		</div>
 		<el-dialog :title="idEdit ? '情報の修正' : '新規顧客の新規'" v-model="visible" width="500px" destroy-on-close
 			:close-on-click-modal="false" @close="closeDialog">
-			<TableEdit :data="rowData" :edit="idEdit" :update="updateData" />
+			<TableEdit :form_data="rowData" :edit="idEdit" :update="updateData" />
 		</el-dialog>
 		<el-dialog title="顧客情報の詳細" v-model="visible1" width="700px" destroy-on-close>
 			<TableDetail :data="rowData" />
@@ -69,6 +69,7 @@ export default {
 			"rowData": {},
 			"visible1":false,
 			"visible":false,
+			"idEdit": false,
 
 			"items": [],
 			"query":{
@@ -76,6 +77,7 @@ export default {
 				"creatDate": '',
 				"querySize":10,
 				"pageIndex":1,
+				"pageTotal":1,
 			},
 			/*
 			idx: number = -1;
@@ -98,16 +100,17 @@ export default {
 		}
 	},
 	methods: {
+		closeDialog: function () { },
 		handleView :function(row)
 		 {
 			this.rowData= row;
 			this.visible1= true;
 		},
 		handleEdit: function (index, row) {
-			idx = index;
-			rowData.value = row;
-			idEdit.value = true;
-			visible.value = true;
+			//idx = index;
+			this.rowData= row;
+			this.idEdit= true;
+			this.visible= true;
 		},
 		// 削除
 		handleDelete :function(item_id )  {
@@ -155,7 +158,7 @@ export default {
 
 			var url="/api/custom/list"
 			var params={
-				"page":this.query.pageIndex,
+				"pageIndex":this.query.pageIndex,
 				"name":this.query.name
 			}
 
@@ -168,6 +171,9 @@ export default {
 					self.items= response.data.list
 					self.query.pageIndex= response.data.pageNum
 					self.query.pageSize= response.data.pageSize
+					self.query.pageTotal= response.data.total
+
+					console.log(self.query)
 			})
 
 		//tableData.value = res.list;
