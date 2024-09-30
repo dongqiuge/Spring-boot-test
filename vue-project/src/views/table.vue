@@ -15,18 +15,18 @@ import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icon
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="name" label="名前" align="center"></el-table-column>
 				<el-table-column label="性別" align="center">
-					<template #default="scope">{{ scope.row.gender }}</template>
+					<template #default="scope">{{ scope.row.sex }}</template>
 				</el-table-column>
-				<el-table-column prop="tel" label="電話番号" align="center"></el-table-column>
+				<el-table-column prop="mobile" label="電話番号" align="center"></el-table-column>
 				<el-table-column label="状態" align="center">
 					<template #default="scope">
-						<el-tag :type="scope.row.state ? 'success' : 'danger'">
+						<el-tag :type="scope.row.status ? 'success' : 'danger'">
 							{{ scope.row.state ? '正常' : '異常' }}
 						</el-tag>
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="creatDate" label="作成時間" align="center"></el-table-column>
+				<el-table-column prop="createdAt" label="作成時間" align="center"></el-table-column>
 				<el-table-column label="操作" width="280" align="center">
 					<template #default="scope">
 						<el-button type="warning" size="small" :icon="View" @click="handleView(scope.row)">
@@ -36,7 +36,7 @@ import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icon
 							v-permiss="15">
 							修正
 						</el-button>
-						<el-button type="danger" size="small" :icon="Delete" @click="handleDelete(scope.$index)" v-permiss="16">
+						<el-button type="danger" size="small" :icon="Delete" @click="handleDelete(scope.row.id)" v-permiss="16">
 							削除
 						</el-button>
 					</template>
@@ -59,13 +59,15 @@ import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icon
 
 <script>
 
-export default {
-	mounted: function () {
+import TableEdit from "@/components/table-edit.vue"
+import TableDetail from "@/components/table-detail.vue"
 
-	},
+export default {
 
 	data: function () {
 		return {
+			"rowData": {},
+			"visible1":false,
 
 			"items": [],
 			"query":{
@@ -98,8 +100,8 @@ export default {
 	methods: {
 		handleView :function(row)
 		 {
-			//rowData.value = row;
-			//visible1.value = true;
+			this.rowData= row;
+			this.visible1= true;
 		},
 		handleEdit: function (index, row) {
 			idx = index;
@@ -108,7 +110,7 @@ export default {
 			visible.value = true;
 		},
 		// 削除
-		handleDelete :function(index )  {
+		handleDelete :function(item_id )  {
 			// 削除の二次確認
 			ElMessageBox.confirm('削除してもよろしいですか？', 'Tip', {
 				type: 'warning',
@@ -116,6 +118,22 @@ export default {
 			cancelButtonText: 'キャンセル',
 			})
 				.then(() => {
+
+
+					var url="/api/custom/delete"
+					var params={"id":item_id}
+
+
+					var self=this
+					this.$api.post(url,params).then(function(response){
+
+						self.getData()
+
+					})
+
+
+
+
 					ElMessage.success('削除成功');
 					tableData.value.splice(index, 1);
 				})
@@ -124,22 +142,46 @@ export default {
 
 		// 検索
 		handleSearch :function ()  {
-			query.pageIndex = 1;
-			getData();
+			this.query.pageIndex = 1;
+			this.getData();
 		},
 		// ページネーションナビゲーション
 		handlePageChange :function(val )  {
-			query.pageIndex = val;
-			getData();
+			this.query.pageIndex = val;
+			this.getData();
 		},
 
 		getData:function(){
+
+			var url="/api/custom/list"
+			var params={
+				"page":this.query.pageIndex,
+				"name":this.query.name
+			}
+
+			var self=this
+			this.$api.get(url,params).then(function(response){
+
+					console.log(response)
+
+
+					self.items= response.data.list
+					self.query.pageIndex= response.data.pageNum
+					self.query.pageSize= response.data.pageSize
+			})
+
 		//tableData.value = res.list;
 		//pageTotal.value = res.pageTotal || 50;
 		},
 	},
 	components: {
-	}
+			//"TableEdit":TableEdit,
+			"TableDetail":TableDetail ,
+	},
+	mounted: function () {
+		this.getData()
+
+	},
 
 
 }

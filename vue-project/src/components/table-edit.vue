@@ -42,12 +42,13 @@
   </el-form>
 </template>
 
-<script lang="ts" setup>
-import { ElMessage, FormInstance, FormRules, UploadProps } from 'element-plus';
-import { ref } from 'vue';
-import Api from '@/api/index';
+<script  setup>
+//import { ElMessage, FormInstance, FormRules, UploadProps } from 'element-plus';
+//import { ref } from 'vue';
+//import Api from '@/api/index';
 
 </script>
+
 <script>
 
 export default {
