@@ -11,8 +11,8 @@
     <el-form-item label="性別" prop="sex">
       <el-input v-model.number="form.sex"></el-input>
     </el-form-item>
-    <el-form-item label="電話番号" prop="mobile">
-      <el-input v-model.trim="form.mobile"></el-input>
+    <el-form-item label="電話番号" prop="phone">
+      <el-input v-model.trim="form.phone"></el-input>
     </el-form-item>
 
     <el-form-item label="状態" prop="status">

@@ -17,11 +17,11 @@ import { Delete, Edit, Search, CirclePlusFilled, View } from '@element-plus/icon
 				<el-table-column label="性別" align="center">
 					<template #default="scope">{{ scope.row.sex }}</template>
 				</el-table-column>
-				<el-table-column prop="mobile" label="電話番号" align="center"></el-table-column>
+				<el-table-column prop="phone" label="電話番号" align="center"></el-table-column>
 				<el-table-column label="状態" align="center">
 					<template #default="scope">
 						<el-tag :type="scope.row.status ? 'success' : 'danger'">
-							{{ scope.row.state ? '正常' : '異常' }}
+							{{ scope.row.status ? '正常' : '異常' }}
 						</el-tag>
 					</template>
 				</el-table-column>
