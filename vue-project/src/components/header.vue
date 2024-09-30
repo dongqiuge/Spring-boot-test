@@ -73,6 +73,7 @@ export default {
   height: 70px;
   font-size: 22px;
   color: #fff;
+  background-color:#242f42;
 }
 .collapse-btn {
   display: flex;
