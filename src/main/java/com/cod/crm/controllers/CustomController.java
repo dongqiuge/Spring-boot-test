@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.util.StringUtils;
 
-import com.example.demo.model.Custom;
-import com.example.demo.model.CustomExample;
-import com.example.demo.model.User;
-import com.example.demo.model.CustomExample.Criteria;
-import com.example.demo.responses.Response;
+import com.cod.crm.mapper.CustomMapper;
+import com.cod.crm.model.Custom;
+import com.cod.crm.model.CustomExample;
+import com.cod.crm.model.CustomExample.Criteria;
+import com.cod.crm.model.User;
+import com.cod.crm.response.Response;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.example.demo.mapper.CustomMapper;
-import java.text.SimpleDateFormat;
+import com.mysql.cj.util.StringUtils;
+
 import java.util.Date;
 
 @RestController
@@ -57,7 +57,7 @@ public class CustomController {
 
 
           Criteria criteria = customExample.createCriteria();
-          if (!StringUtils.isEmptyOrWhitespace(query)) {
+          if (!StringUtils.isEmptyOrWhitespaceOnly(query)) {
                   criteria.andNameLike("%" + query + "%");    
           }
           
